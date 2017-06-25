@@ -1,0 +1,42 @@
+#!/bin/bash
+
+
+# convert image name to a valid container name
+orig=$2
+repl=_
+NAME="${orig/:/$repl}"
+orig=$NAME
+NAME="${orig/\//$repl}"
+
+
+# check number of arguments and display usage
+
+
+case "$1" in
+	start)
+		echo "launching docker image $2 with name $NAME"
+		docker stop $NAME > /dev/null
+		docker rm $NAME > /dev/null
+		docker volume rm $(docker volume ls -qf dangling=true) > /dev/null
+		xhost + > /dev/null
+		nvidia-docker run -d -it --privileged --log-driver=syslog --net=host --env="QT_GRAPHICSSYSTEM=opengl" --env="DISPLAY" --env="QT_X11_NO_MITSHM=1" -v "/tmp/.X11-unix:/tmp/.X11-unix:rw" `echo $3` --name $NAME $2
+		;;
+	
+	stop)
+		echo "stopping docker container $NAME"
+		docker stop $NAME
+		;;
+
+	exec)
+		echo "executing command $3 in container $NAME"
+		nvidia-docker exec -it $NAME $3
+		;;
+	run)
+		echo "running command $3 in image $2"
+		xhost + > /dev/null
+		nvidia-docker run -it --privileged --log-driver=syslog --net=host --env="QT_GRAPHICSSYSTEM=opengl" --env="DISPLAY" --env="QT_X11_NO_MITSHM=1" -v "/tmp/.X11-unix:/tmp/.X11-unix:rw" `echo $4` --name $NAME $2
+		;;
+	bash)
+		nvidia-docker exec -it $NAME bash
+		;;
+	esac
