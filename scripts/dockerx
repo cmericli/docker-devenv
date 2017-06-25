@@ -39,4 +39,12 @@ case "$1" in
 	bash)
 		nvidia-docker exec -it $NAME bash
 		;;
+	*)
+		echo "Usage: dockerx {start|stop|exec|run|bash} <image> [<command>] [<arguments>]"
+		echo "Examples: "
+		echo " dockerx start myimage \"-v /home/myuser/data:/home/dev/data:rw\""
+		echo " dockerx stop myimage"
+		echo " dockerx exec myimage iperf"
+		echo " dockerx run myimage iperf \"-v /var/tmp:/var/tmp:rw\""
+		echo " dockerx bash myimage"
 	esac

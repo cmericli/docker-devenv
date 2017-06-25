@@ -11,4 +11,4 @@ while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symli
 done
 CUR_DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
 
-echo "export PATH=$CUR_DIR:\$PATH" >> ~/.bash_aliases
+echo "export PATH=$CUR_DIR/scripts:\$PATH" >> ~/.bash_aliases
