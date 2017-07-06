@@ -24,6 +24,8 @@ case "$1" in
 	
 	stop)
 		echo "stopping docker container $NAME"
+		docker stop $NAME > /dev/null
+		docker rm $NAME > /dev/null
 		docker stop $NAME
 		;;
 
