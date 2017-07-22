@@ -8,7 +8,6 @@ NAME="${orig/:/$repl}"
 orig=$NAME
 NAME="${orig//\//$repl}"
 
-echo "NAME: $NAME"
 # check number of arguments and display usage
 
 
