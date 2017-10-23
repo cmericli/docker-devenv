@@ -42,6 +42,7 @@ RUN apt-get update && \
 	xterm \
 	iperf \
 	google-perftools \
+	sshfs \
     && apt-get dist-upgrade -y \
 	&& rm -rf /var/lib/apt/lists/* 
 RUN updatedb
@@ -50,7 +51,6 @@ RUN locale-gen en_US.UTF-8
 ENV LANG en_US.UTF-8
 ENV DEBIAN_FRONTEND=noninteractive
 
-#ENV QT_GRAPHICSSYSTEM="native"
 
 ARG CUSTOM_UID=1000
 ENV CUSTOM_UID ${CUSTOM_UID}
@@ -66,4 +66,7 @@ ADD vimrc ${HOME}/.vimrc
 ADD screenrc ${HOME}/.screenrc
 
 RUN sed -i -- 's/#force_color_prompt=yes/force_color_prompt=yes/g' ~/.bashrc
-RUN /bin/bash -c "echo 'exec >/dev/tty 2>/dev/tty </dev/tty' >> ~/.bashrc"
+#RUN /bin/bash -c "echo 'exec >/dev/tty 2>/dev/tty </dev/tty' >> ~/.bashrc"
+RUN /bin/bash -c "echo 'export QT_X11_NO_MITSHM=1' >> ~/.bashrc"
+RUN /bin/bash -c "echo 'export QT_GRAPHICSSYSTEM=raster' >> ~/.bashrc"
+
