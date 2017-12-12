@@ -18,7 +18,7 @@ case "$1" in
 		docker rm $NAME > /dev/null
 		#docker volume rm $(docker volume ls -qf dangling=true) > /dev/null
 		xhost + > /dev/null
-		nvidia-docker run -d -it --privileged --log-driver=syslog --net=host --env="QT_GRAPHICSSYSTEM=opengl" --env="DISPLAY" --env="QT_X11_NO_MITSHM=1" -v "/tmp/.X11-unix:/tmp/.X11-unix:rw" `echo $3` --name $NAME $2
+		nvidia-docker run -d -it --privileged --log-driver=syslog --net=host --env="COLUMNS" --env="ROWS" --env="QT_GRAPHICSSYSTEM=opengl" --env="DISPLAY" --env="QT_X11_NO_MITSHM=1" -v "/tmp/.X11-unix:/tmp/.X11-unix:rw" -v "/etc/localtime:/etc/localtime:ro" `echo $3` --name $NAME $2
 		;;
 	
 	stop)
@@ -37,7 +37,7 @@ case "$1" in
 		docker stop $NAME > /dev/null
 		docker rm $NAME > /dev/null
 		xhost + > /dev/null
-		nvidia-docker run -it --privileged --log-driver=syslog --net=host --env="COLUMNS" --env="ROWS" --env="QT_GRAPHICSSYSTEM=opengl" --env="DISPLAY" --env="QT_X11_NO_MITSHM=1" -v "/tmp/.X11-unix:/tmp/.X11-unix:rw" `echo $4` --name $NAME $2
+		nvidia-docker run -it --privileged --log-driver=syslog --net=host --env="COLUMNS" --env="ROWS" --env="QT_GRAPHICSSYSTEM=opengl" --env="DISPLAY" --env="QT_X11_NO_MITSHM=1" -v "/tmp/.X11-unix:/tmp/.X11-unix:rw" -v "/etc/localtime:/etc/localtime:ro"  `echo $4` --name $NAME $2
 		;;
 	bash)
 		nvidia-docker exec -it --env="COLUMNS" --env="ROWS" $NAME bash

@@ -66,7 +66,11 @@ ADD vimrc ${HOME}/.vimrc
 ADD screenrc ${HOME}/.screenrc
 
 RUN sed -i -- 's/#force_color_prompt=yes/force_color_prompt=yes/g' ~/.bashrc
-#RUN /bin/bash -c "echo 'exec >/dev/tty 2>/dev/tty </dev/tty' >> ~/.bashrc"
+
+#for screen to work
+RUN /bin/bash -c "echo 'exec >/dev/tty 2>/dev/tty </dev/tty' >> ~/.bashrc"
+
+#For QT to have proper rendering performance 
 RUN /bin/bash -c "echo 'export QT_X11_NO_MITSHM=1' >> ~/.bashrc"
 RUN /bin/bash -c "echo 'export QT_GRAPHICSSYSTEM=raster' >> ~/.bashrc"
 
